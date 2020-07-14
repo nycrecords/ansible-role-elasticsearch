@@ -8,6 +8,9 @@ verify_ssl = true
 [packages]
 molecule = {extras = ["ec2", "vagrant"],version = "*"}
 awscli = "*"
+yamllint = "*"
+flake8 = "*"
+testinfra = "*"
 
 [requires]
 python_version = "3.7"

@@ -3,8 +3,6 @@ dependency:
   name: galaxy
 driver:
   name: ec2
-lint:
-  name: yamllint
 platforms:
   - name: instance
     image: ami-000db10762d0c4c05
@@ -12,8 +10,6 @@ platforms:
     vpc_subnet_id: subnet-38a38302
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
   connection_options:
     ansible_user: ec2-user
   playbooks:
@@ -24,5 +20,3 @@ verifier:
   options:
     verbose: true
   directory: ../resources/tests/
-  lint:
-    name: flake8
