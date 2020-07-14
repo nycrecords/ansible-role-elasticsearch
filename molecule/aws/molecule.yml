@@ -6,7 +6,7 @@ driver:
 platforms:
   - name: instance
     image: ami-000db10762d0c4c05
-    instance_type: t2.micro
+    instance_type: t2.large
     vpc_subnet_id: subnet-38a38302
 provisioner:
   name: ansible
