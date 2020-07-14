@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-molecule = {extras = ["ec2", "vagrant"],version = "*"}
+molecule = {extras = ["ec2", "vagrant"],version = "==2.22"}
 awscli = "*"
 yamllint = "*"
 flake8 = "*"
