@@ -1,28 +1,24 @@
----
 language: python
-services: docker
-
+python:
+- 3.7
 env:
   global:
-    - ROLE_NAME: elasticsearch
-  matrix:
-    - MOLECULE_DISTRO: centos7
-    - MOLECULE_DISTRO: ubuntu1804
-    - MOLECULE_DISTRO: ubuntu1604
-
+  - MOLECULE_DEBUG: 'true'
+  - ROLE_NAME: elasticsearch
+  - EC2_REGION: us-east-1
+  - secure: D2hDRwsDgppQJX7pwWh3+/n0/VB9lWuASM50QLDBJyFmD8wUVmDhH6rPQv3oWJhYLJOXtJiwkYqPih247Icl7Rg09cNQjwT7/MuAQKTzUH3AsmAkYghlOpq4Utvhekl/EERe8WsE7eAM2V2mQ5Ufk+qPnkEPeGApFiXgdpsWX1n+eaYhZKjitAPspIieCn2fDjEGp/HkeZ90aBAaVdT25TGQL+iaUec2bFxx9uTUfvVFRBc8+huSTmXoZQASk6vtKgU85iOhRfdh7qn2X2CRe7BPTiZzAvlQeBKqhV/jkAtkfBq5D0M+wgIot816KrIddnALM8tUFw19esQZxA+rfo85sxbTeyA6PNlskKgwn2RyRxT0SstgsFg6ryADvZSGmrfsEaxr92QTRbxbSNFFMRkpq5pHtv8FN8rxTLRH4iScH8AU73bFJ9XPqly4mh3v5dpt21JAsIdDaILTSiCFl/217hehrXE/G39t5jmaO2qA6/Gjqhmth5To7spPNgs0/25hzIxqTPzKwe+6JvWmIztByQ4yKsnGQlkWenrFrLWXg3VjLa4on8j/kY2IiY9FOZHuVdCrJ4f3oCzH6KUDMIgmm+ZmPq99x6FHOHn6P5yqq3pBlCLQhDLbmvRpuGnj6wf40q+XHhK+MmzBYDaeNtLq8hX9ADemU1BsMHoD1Hk=
+  - secure: WW9iONdHDtbYywN74AKn/5LVqCI0351DYCPEwWDVv1640qWQ4BzdBe6Y2PnAsKYrXF8ksSxQymOIbszOBZqvMaVOSVWTH74IyO3UpCgePuQ4o3K/P8JBDCJz6rTwy+JwqrCZzJJ/wbY5AtCGEDKm3u+IxHmbu+6J2WRHtRDb4ymbeGtsTkniwC5D52V35acZeDjwwUQREl44OinQtfD7e7P+6y9Xvj2xw/SohLUp099EeKKFyfj5q3frQv05IsfsUyu78c5NVH7xcme7GXWKgfMo3vB3niXOcSiDxBCTmKm5MkQ8Vws5VW18sem6q2gnmJKYKgmjZkwe8/FBxlKimE1PVnmIy0n8YcuG9Oy9AOiXk+bsWBBXXAS9p3IXbcS/xi2pR/JFLnvUo9hgpeeDqVRkgz0UWXTkl7wGA1JTlumb9FhGCOLNv3a5RnGF8e/Kev1R35It1ehr7Qps2MLGUmb7DfiliD35PTS9kZFpDAvtZxiHMA7zUoiyKVJKUZ7HpyE7Me/2UueT5QbLwsgswdAEff88CtqQD4ePX4K2k4dS3wC7j9TYfDKafYmZn7GUKkIYI8AUKmG2wGRjo5v8Nyl8g1qJbGZ28oloNSJwCr5SK8MyiOU8RDnD/awEEUf+sr7hMdmGZcOm0fgVIGICuIbdVAr4JNKweiROHtmn7wc=
 install:
-  # Install test dependencies.
-  - pip install molecule yamllint ansible-lint docker
-
-before_script:
-  # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - mv ansible-role-$ROLE_NAME geerlingguy.$ROLE_NAME
-  - cd geerlingguy.$ROLE_NAME
-
+- pip install pipenv
+- pipenv install
+- aws configure set aws_access_key_id $AWS_ACCESS_KEY
+- aws configure set aws_secret_access_key $AWS_SECRET_KEY
+- aws configure set default.region $EC2_REGION
+- aws configure list
 script:
-  # Run tests.
-  - molecule test
-
+- molecule create --scenario-name aws
+- molecule converge --scenario-name aws
+- molecule verify --scenario-name aws
+- molecule destroy --scenario-name aws
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

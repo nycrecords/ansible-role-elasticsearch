@@ -1,12 +1,12 @@
 # Ansible Role: Elasticsearch
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-elasticsearch.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-elasticsearch)
+[![Build Status](https://travis-ci.org/nycrecords/ansible-role-elasticsearch.svg?branch=master)](https://travis-ci.org/nycrecords/ansible-role-elasticsearch)
 
 An Ansible Role that installs Elasticsearch on RedHat/CentOS or Debian/Ubuntu.
 
 ## Requirements
 
-Requires at least Java 8. See [`geerlingguy.java`](https://github.com/geerlingguy/ansible-role-java#example-playbook-install-openjdk-8) role instructions for installing OpenJDK 8.
+Requires at least Java 8. See [`nycrecords.java`](https://github.com/nycrecords/ansible-role-java#example-playbook-install-openjdk-8) role instructions for installing OpenJDK 8.
 
 ## Role Variables
 
@@ -53,14 +53,14 @@ elasticsearch_extra_options: |  # Dont forget the pipe!
 
 ## Dependencies
 
-  - geerlingguy.java
+  - nycrecords.java
 
 ## Example Playbook
 
     - hosts: search
       roles:
-        - geerlingguy.java
-        - geerlingguy.elasticsearch
+        - nycrecords.java
+        - nycrecords.elasticsearch
 
 ## License
 
