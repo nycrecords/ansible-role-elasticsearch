@@ -16,9 +16,9 @@ install:
 - aws configure set default.region $EC2_REGION
 - aws configure list
 script:
-- molecule create --scenario-name aws
-- molecule converge --scenario-name aws
-- molecule verify --scenario-name aws
-- molecule destroy --scenario-name aws
+- molecule --debug create --scenario-name aws
+- molecule --debug converge --scenario-name aws
+- molecule --debug verify --scenario-name aws
+- molecule --debug destroy --scenario-name aws
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
