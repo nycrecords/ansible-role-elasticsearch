@@ -10,6 +10,60 @@
     name: elasticsearch
     state: "{{ elasticsearch_package_state }}"
 
+- name: Create instance.yml file
+  template:
+    src: instance.yml.j2
+    dest: /tmp/instance.yml
+
+- name: Create temp certs directory
+  file:
+    path: /tmp/certs
+    state: directory
+
+- name: Check for temp certs directory
+  stat:
+    path: "/tmp/certs/certs.zip"
+  register: elasticsearch_certs
+
+- name: Create certs for SSL
+  command: /usr/share/elasticsearch/bin/elasticsearch-certutil cert --keep-ca-key ca --pem --in /tmp/instance.yml --out /tmp/certs/certs.zip
+  when: not elasticsearch_certs.stat.exists
+
+- name: Install unzip
+  yum:
+    name:
+      - unzip  
+
+- name: Unzip certs.zip
+  unarchive:
+    src: /tmp/certs/certs.zip
+    dest: /tmp/certs
+    remote_src: True
+    keep_newer: yes
+
+- name: Create certs directory
+  file:
+    path: /etc/elasticsearch/certs
+    state: directory
+
+- name: Copy CA cert to directory
+  copy:
+    src: /tmp/certs/ca/ca.crt
+    dest: /etc/elasticsearch/certs/ca.crt
+    remote_src: True
+
+- name: Copy instance cert to directory
+  copy:
+    src: /tmp/certs/server1/server1.crt
+    dest: /etc/elasticsearch/certs/server1.crt
+    remote_src: True
+
+- name: Copy instance key to directory
+  copy:
+    src: /tmp/certs/server1/server1.key
+    dest: /etc/elasticsearch/certs/server1.key
+    remote_src: True
+
 - name: Configure Elasticsearch.
   template:
     src: "{{ item }}.j2"
