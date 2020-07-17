@@ -25,8 +25,8 @@ provisioner:
         ca_crt: ../resources/ca/ca.crt
     host_vars:
       instance:
-        server_crt: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.crt
-        server_key: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.key
+        server_crt: ../resources/instance/instance.crt
+        server_key: ../resources/instance/instance.key
 verifier:
   name: testinfra
   directory: ../resources/tests/
