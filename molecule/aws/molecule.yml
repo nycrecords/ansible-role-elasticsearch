@@ -8,6 +8,8 @@ platforms:
     image: ami-000db10762d0c4c05
     instance_type: t2.large
     vpc_subnet_id: subnet-38a38302
+    groups:
+      - elasticsearch
 provisioner:
   name: ansible
   connection_options:
@@ -15,6 +17,14 @@ provisioner:
   playbooks:
     converge: converge.yml
     cleanup: cleanup.yml
+  inventory:
+    group_vars:
+      elasticsearch:
+        ca_crt: ../resources/ca/ca.crt
+    host_vars:
+      instance:
+        server_crt: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.crt
+        server_key: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.key
 verifier:
   name: testinfra
   options:
