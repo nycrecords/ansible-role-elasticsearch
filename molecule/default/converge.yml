@@ -15,7 +15,7 @@
     rhsm_consumer_name: "nycrecords_{{ '%Y%m%d_%H%M%s' | strftime(ansible_date_time.epoch) }}"
 
     # Role: java
-    java_home: /usr/lib/jvm/java-1.8.0-openjdk.x86_64
+    java_home: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/jre/bin/java
 
     # Role: ElasticSearch
     elasticsearch_heap_size_min: 128m

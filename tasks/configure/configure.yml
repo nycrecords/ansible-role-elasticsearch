@@ -1,0 +1,50 @@
+---
+## Configure SSL
+- name: Create certs directory
+  file:
+    path: /etc/elasticsearch/certs
+    state: directory
+  tags:
+    - configure
+
+- name: Copy ca / server certs to certs directory
+  copy:
+    src: "{{ item }}"
+    dest: /etc/elasticsearch/certs
+  with_items:
+    - "{{ ca_crt }}"
+    - "{{ server_crt }}"
+    - "{{ server_key }}"  
+  tags:
+    - configure
+
+## Setup ElasticSearch Config Files
+- name: Configure Elasticsearch.
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/elasticsearch/{{ item }}
+    owner: root
+    group: elasticsearch
+    mode: 0660
+  with_items:
+    - elasticsearch.yml
+    - jvm.options
+  notify: restart elasticsearch
+  tags:
+    - configure 
+
+- name: Force a restart if configuration has changed.
+  meta: flush_handlers
+
+- name: Start Elasticsearch.
+  service:
+    name: elasticsearch
+    state: "{{ elasticsearch_service_state }}"
+    enabled: "{{ elasticsearch_service_enabled }}"
+
+- name: Make sure Elasticsearch is running before proceeding.
+  wait_for:
+    host: "{{ elasticsearch_network_host }}"
+    port: "{{ elasticsearch_http_port }}"
+    delay: 3
+    timeout: 300

@@ -5,10 +5,27 @@ elasticsearch_package_state: present
 elasticsearch_service_state: started
 elasticsearch_service_enabled: true
 
-elasticsearch_network_host: localhost
-elasticsearch_http_port: 9200
-
 elasticsearch_heap_size_min: 1g
 elasticsearch_heap_size_max: 2g
 
 elasticsearch_extra_options: ''
+
+elasticsearch_cluster_name: elasticsearch
+elasticsearch_node_name: "{{ inventory_hostname }}"
+elasticsearch_data_path: /var/lib/elasticsearch
+elasticsearch_log_path: /var/log/elasticsearch
+elasticsearch_network_host: "127.0.0.1"
+elasticsearch_http_port: 9200
+
+elasticsearch_hosts: ["127.0.0.1", "[::1]"]
+elasticsearch_minimum_master_nodes: 1
+elasticsearch_recover_after_nodes: 1
+
+# SSL/TLS
+xpack_security_enabled: true
+xpack_transport_ssl_enabled: true
+xpack_http_ssl_enabled: true
+
+server_key_name: "{{ server_key | basename }}"
+server_crt_name: "{{ server_crt | basename }}"
+ca_crt_name: "{{ ca_crt | basename }}"

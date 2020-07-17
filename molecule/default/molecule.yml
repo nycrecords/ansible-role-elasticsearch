@@ -10,6 +10,8 @@ lint:
 platforms:
   - name: instance
     box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - elasticsearch
 provisioner:
   name: ansible
   lint:
@@ -18,9 +20,13 @@ provisioner:
     converge: converge.yml
     cleanup: cleanup.yml
   inventory:
+    group_vars:
+      elasticsearch:
+        ca_crt: ../resources/ca/ca.crt
     host_vars:
       instance:
-        environment: vagrant
+        server_crt: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.crt
+        server_key: ../resources/{{ ansible_hostname }}/{{ ansible_hostname }}.key
 verifier:
   name: testinfra
   directory: ../resources/tests/
