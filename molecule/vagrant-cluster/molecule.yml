@@ -1,0 +1,41 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: instance-1
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - elasticsearch
+  - name: instance-2
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - elasticsearch
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: converge.yml
+    cleanup: cleanup.yml
+  inventory:
+    group_vars:
+      elasticsearch:
+        ca_crt: ../resources/ca/ca.crt
+    host_vars:
+      instance-1:
+        server_crt: ../resources/instance-1/instance-1.crt
+        server_key: ../resources/instance-1/instance-1.key
+      instance-2:
+        server_crt: ../resources/instance-2/instance-2.crt
+        server_key: ../resources/instance-2/instance-2.key
+verifier:
+  name: testinfra
+  directory: ../resources/tests/
+  lint:
+    name: flake8
