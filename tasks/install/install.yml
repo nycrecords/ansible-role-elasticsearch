@@ -11,3 +11,13 @@
     state: "{{ elasticsearch_package_state }}"
   tags:
     - install
+
+- name: Install Pip
+  yum:
+    name: python-pip
+
+- name: Install pexpect
+  pip:
+    name: pexpect
+  become: yes
+  
