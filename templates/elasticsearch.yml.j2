@@ -15,13 +15,13 @@
 #
 # Use a descriptive name for your cluster:
 #
-#cluster.name: my-application
+cluster.name: {{ elasticsearch_cluster_name }}
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-#node.name: node-1
+node.name: {{ elasticsearch_node_name }}
 #
 # Add custom attributes to the node:
 #
@@ -31,11 +31,11 @@
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-path.data: /var/lib/elasticsearch
+path.data: {{ elasticsearch_data_path }}
 #
 # Path to log files:
 #
-path.logs: /var/log/elasticsearch
+path.logs: {{ elasticsearch_log_path }}
 #
 # ----------------------------------- Memory -----------------------------------
 #
@@ -66,19 +66,22 @@ http.port: {{ elasticsearch_http_port }}
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-#discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+discovery.zen.ping.unicast.hosts: {{ elasticsearch_hosts }}
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
-#discovery.zen.minimum_master_nodes:
+discovery.zen.minimum_master_nodes: {{ elasticsearch_minimum_master_nodes }}
 #
 # For more information, consult the zen discovery module documentation.
 #
+{% if elasticsearch_discovery_type %}
+discovery.type: {{ elasticsearch_discovery_type }}
+{% endif %}
 # ---------------------------------- Gateway -----------------------------------
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
 #
-#gateway.recover_after_nodes: 3
+gateway.recover_after_nodes: {{ elasticsearch_recover_after_nodes }}
 #
 # For more information, consult the gateway module documentation.
 #
@@ -89,3 +92,17 @@ http.port: {{ elasticsearch_http_port }}
 #action.destructive_requires_name: true
 
 {{ elasticsearch_extra_options }}
+
+# ---------------------------------- X-Pack -----------------------------------
+xpack.security.enabled: {{ xpack_security_enabled }}
+
+# ---------------------------------- X-Pack Transport -----------------------------------
+xpack.security.transport.ssl.enabled: {{ xpack_transport_ssl_enabled }}
+xpack.security.transport.ssl.key: certs/{{ server_key_name }}
+xpack.security.transport.ssl.certificate: certs/{{ server_crt_name }}
+xpack.security.transport.ssl.certificate_authorities: [ "certs/{{ ca_crt_name }}" ]
+# ---------------------------------- X-Pack HTTPS -----------------------------------
+xpack.security.http.ssl.enabled: {{ xpack_http_ssl_enabled }}
+xpack.security.http.ssl.key: certs/{{ server_key_name }}
+xpack.security.http.ssl.certificate: certs/{{ server_crt_name }}
+xpack.security.http.ssl.certificate_authorities: certs/{{ ca_crt_name }}

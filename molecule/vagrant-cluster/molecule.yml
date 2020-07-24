@@ -8,7 +8,11 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
+  - name: instance-1
+    box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
+    groups:
+      - elasticsearch
+  - name: instance-2
     box: ${VAGRANT_DEFAULT_BOX:-generic/rhel7}
     groups:
       - elasticsearch
@@ -24,9 +28,12 @@ provisioner:
       elasticsearch:
         ca_crt: ../resources/ca/ca.crt
     host_vars:
-      instance:
-        server_crt: ../resources/instance/instance.crt
-        server_key: ../resources/instance/instance.key
+      instance-1:
+        server_crt: ../resources/instance-1/instance-1.crt
+        server_key: ../resources/instance-1/instance-1.key
+      instance-2:
+        server_crt: ../resources/instance-2/instance-2.crt
+        server_key: ../resources/instance-2/instance-2.key
 verifier:
   name: testinfra
   directory: ../resources/tests/

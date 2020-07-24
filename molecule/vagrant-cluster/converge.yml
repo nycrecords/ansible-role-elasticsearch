@@ -20,8 +20,6 @@
     # Role: ElasticSearch
     elasticsearch_heap_size_min: 128m
     elasticsearch_heap_size_max: 128m
-    elasticsearch_discovery_type: single-node
-
   roles:
     - role: nycrecords.rhsm
     - role: nycrecords.java
