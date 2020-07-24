@@ -25,4 +25,5 @@
   roles:
     - role: nycrecords.rhsm
     - role: nycrecords.java
+    - role: geerlingguy.repo-epel
     - role: ansible-role-elasticsearch
