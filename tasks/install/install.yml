@@ -12,9 +12,27 @@
   tags:
     - install
 
-- name: Install Pip
-  yum:
-    name: python-pip
+- name: Determine what version of Pip is installed.
+  command: "{{ pip_executable }} --version"
+  register: pip_version_output
+  ignore_errors: yes
+  changed_when: false
+
+- name: Download get-pip.py
+  vars:
+      pip_version_url: "{{ (pip_get_pip_version == 'latest') | ternary('', pip_get_pip_version) }}"
+      required_vars:
+          - pip_get_pip_version
+  get_url:
+      url: 'https://bootstrap.pypa.io/{{ pip_version_url }}/get-pip.py'
+      dest: /tmp/get-pip.py
+  when: (pip_version_output is failed) or not pip_version_output.stdout is search(pip_version)
+
+- name: Install pip
+  command: "{{ ansible_python_interpreter if ansible_python_interpreter is defined else 'python' }} get-pip.py pip=={{ pip_version }}"
+  when: "(pip_version_output is failed) or not pip_version_output.stdout is search('pip ' + pip_version)"
+  args:
+    chdir: /tmp
 
 - name: Install pexpect
   pip:
