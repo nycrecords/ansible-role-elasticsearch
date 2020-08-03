@@ -1,0 +1,23 @@
+{
+    "cluster": [
+        "manage_index_templates",
+        "monitor",
+        "manage_ilm"
+    ],
+    "indices": [
+        {
+            "names": [
+                "logstash-*",
+                "filebeat-*"
+            ],
+            "privileges": [
+                "write",
+                "create",
+                "delete",
+                "create_index",
+                "manage",
+                "manage_ilm"
+            ]
+        }
+    ]
+}

@@ -69,3 +69,43 @@
       Enter password for \[remote_monitoring_user\]: "{{ remote_monitoring_user_password }}"
       Reenter password for \[remote_monitoring_user\]: "{{ remote_monitoring_user_password }}"
   ignore_errors: true
+
+- name: Create logstash_writer role
+  uri:
+    url: "http://{{ elasticsearch_network_host }}:{{ elasticsearch_http_port }}/_security/role/logstash_writer/?pretty"
+    user: elastic
+    password: "{{ elastic_user_password }}"
+    method: POST
+    body: "{{ lookup('file','templates/logstash_writer.json') }}"
+    force_basic_auth: yes
+    body_format: json
+
+- name: Create logstash_reader role
+  uri:
+    url: "http://{{ elasticsearch_network_host }}:{{ elasticsearch_http_port }}/_security/role/logstash_reader/?pretty"
+    user: elastic
+    password: "{{ elastic_user_password }}"
+    method: POST
+    body: "{{ lookup('file','templates/logstash_reader.json') }}"
+    force_basic_auth: yes
+    body_format: json
+
+- name: Create logstash_internal user
+  uri:
+    url: "http://{{ elasticsearch_network_host }}:{{ elasticsearch_http_port }}/_security/user/logstash_internal/?pretty"
+    user: elastic
+    password: "{{ elastic_user_password }}"
+    method: POST
+    body: "{{ lookup('file','templates/logstash_internal.json') }}"
+    force_basic_auth: yes
+    body_format: json
+
+- name: Create logstash_user user
+  uri:
+    url: "http://{{ elasticsearch_network_host }}:{{ elasticsearch_http_port }}/_security/user/logstash_user/?pretty"
+    user: elastic
+    password: "{{ elastic_user_password }}"
+    method: POST
+    body: "{{ lookup('file','templates/logstash_user.json') }}"
+    force_basic_auth: yes
+    body_format: json

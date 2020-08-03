@@ -1,0 +1,6 @@
+{
+    "password": "{{ logstash_internal_password }}",
+    "roles": [
+        "logstash_writer"
+    ]
+}
