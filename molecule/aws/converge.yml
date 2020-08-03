@@ -18,5 +18,4 @@
   roles:
     - role: nycrecords.yum_config_manager
     - role: nycrecords.java
-    - role: geerlingguy.repo-epel
     - role: ansible-role-elasticsearch
