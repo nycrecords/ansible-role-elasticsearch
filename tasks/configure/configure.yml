@@ -4,6 +4,7 @@
   file:
     path: /etc/elasticsearch/certs
     state: directory
+  when: xpack_transport_ssl_enabled or xpack_http_ssl_enabled
   tags:
     - configure
 
@@ -14,7 +15,8 @@
   with_items:
     - "{{ ca_crt }}"
     - "{{ server_crt }}"
-    - "{{ server_key }}"  
+    - "{{ server_key }}" 
+  when: xpack_transport_ssl_enabled or xpack_http_ssl_enabled
   tags:
     - configure
 

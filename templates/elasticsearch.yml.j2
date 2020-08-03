@@ -93,16 +93,23 @@ gateway.recover_after_nodes: {{ elasticsearch_recover_after_nodes }}
 
 {{ elasticsearch_extra_options }}
 
+{% if xpack_security_enabled %}
 # ---------------------------------- X-Pack -----------------------------------
 xpack.security.enabled: {{ xpack_security_enabled }}
+{% endif %}
 
+{% if xpack_transport_ssl_enabled %}
 # ---------------------------------- X-Pack Transport -----------------------------------
 xpack.security.transport.ssl.enabled: {{ xpack_transport_ssl_enabled }}
 xpack.security.transport.ssl.key: certs/{{ server_key_name }}
 xpack.security.transport.ssl.certificate: certs/{{ server_crt_name }}
 xpack.security.transport.ssl.certificate_authorities: [ "certs/{{ ca_crt_name }}" ]
+{% endif %}
+
+{% if xpack_http_ssl_enabled %}
 # ---------------------------------- X-Pack HTTPS -----------------------------------
 xpack.security.http.ssl.enabled: {{ xpack_http_ssl_enabled }}
 xpack.security.http.ssl.key: certs/{{ server_key_name }}
 xpack.security.http.ssl.certificate: certs/{{ server_crt_name }}
 xpack.security.http.ssl.certificate_authorities: certs/{{ ca_crt_name }}
+{% endif %}
