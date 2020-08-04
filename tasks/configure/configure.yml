@@ -76,7 +76,7 @@
     user: elastic
     password: "{{ elastic_user_password }}"
     method: POST
-    body: "{{ lookup('file','templates/logstash_writer.json') }}"
+    body: "{{ lookup('template','logstash_writer.json.j2') }}"
     force_basic_auth: yes
     body_format: json
 
@@ -86,7 +86,7 @@
     user: elastic
     password: "{{ elastic_user_password }}"
     method: POST
-    body: "{{ lookup('file','templates/logstash_reader.json') }}"
+    body: "{{ lookup('template','logstash_reader.json.j2') }}"
     force_basic_auth: yes
     body_format: json
 
@@ -96,7 +96,7 @@
     user: elastic
     password: "{{ elastic_user_password }}"
     method: POST
-    body: "{{ lookup('file','templates/logstash_internal.json') }}"
+    body: "{{ lookup('template','logstash_internal.json.j2') }}"
     force_basic_auth: yes
     body_format: json
 
@@ -106,6 +106,6 @@
     user: elastic
     password: "{{ elastic_user_password }}"
     method: POST
-    body: "{{ lookup('file','templates/logstash_user.json') }}"
+    body: "{{ lookup('template','logstash_user.json.j2') }}"
     force_basic_auth: yes
     body_format: json
