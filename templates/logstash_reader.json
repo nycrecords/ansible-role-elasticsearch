@@ -1,0 +1,14 @@
+{
+    "indices": [
+        {
+            "names": [
+                "logstash-*",
+                "filebeat-*"
+            ],
+            "privileges": [
+                "read",
+                "view_index_metadata"
+            ]
+        }
+    ]
+}

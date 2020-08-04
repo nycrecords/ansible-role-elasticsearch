@@ -23,8 +23,8 @@ elasticsearch_recover_after_nodes: 1
 
 # SSL/TLS
 xpack_security_enabled: true
-xpack_transport_ssl_enabled: true
-xpack_http_ssl_enabled: true
+xpack_transport_ssl_enabled: false
+xpack_http_ssl_enabled: false
 
 server_key_name: "{{ server_key | basename }}"
 server_crt_name: "{{ server_crt | basename }}"
@@ -37,6 +37,10 @@ kibana_system_user_password: kibana_system
 logstash_system_user_password: logstash_system
 beats_system_user_password: beats_system
 remote_monitoring_user_password: remote_monitoring_user
+
+# Logstash User Passwords
+logstash_internal_password: logstash_internal
+logstash_user_password: logstash_user
 
 # Python Pip for Expect
 pip_executable: "pip"
