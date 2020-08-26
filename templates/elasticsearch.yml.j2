@@ -27,6 +27,8 @@ node.name: {{ elasticsearch_node_name }}
 #
 #node.attr.rack: r1
 #
+node.master: True
+*
 # ----------------------------------- Paths ------------------------------------
 #
 # Path to directory where to store the data (separate multiple locations by comma):
@@ -66,7 +68,9 @@ http.port: {{ elasticsearch_http_port }}
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: {{ elasticsearch_hosts }}
+discovery.seed_hosts: {{ elasticsearch_hosts }}
+#
+cluster.initial_master_nodes: {{ elasticsearch_initial_master_nodes }}
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
