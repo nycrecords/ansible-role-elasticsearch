@@ -69,6 +69,7 @@
       Enter password for \[remote_monitoring_user\]: "{{ remote_monitoring_user_password }}"
       Reenter password for \[remote_monitoring_user\]: "{{ remote_monitoring_user_password }}"
   ignore_errors: true
+  when: xpack_security_enabled
 
 - name: Create logstash_writer role
   uri:
@@ -79,6 +80,7 @@
     body: "{{ lookup('template','logstash_writer.json.j2') }}"
     force_basic_auth: yes
     body_format: json
+  when: xpack_security_enabled
 
 - name: Create logstash_reader role
   uri:
@@ -89,6 +91,7 @@
     body: "{{ lookup('template','logstash_reader.json.j2') }}"
     force_basic_auth: yes
     body_format: json
+  when: xpack_security_enabled
 
 - name: Create logstash_internal user
   uri:
@@ -99,6 +102,7 @@
     body: "{{ lookup('template','logstash_internal.json.j2') }}"
     force_basic_auth: yes
     body_format: json
+  when: xpack_security_enabled
 
 - name: Create logstash_user user
   uri:
@@ -109,3 +113,4 @@
     body: "{{ lookup('template','logstash_user.json.j2') }}"
     force_basic_auth: yes
     body_format: json
+  when: xpack_security_enabled
